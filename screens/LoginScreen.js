@@ -5,20 +5,20 @@ class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: '',
     };
   }
 
   handleLogin = () => {
-    const { username, password } = this.state;
+    const {email, password } = this.state;
 
     fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -40,9 +40,9 @@ class LoginPage extends React.Component {
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          placeholder="Username"
-          onChangeText={(text) => this.setState({ username: text })}
-          value={this.state.username}
+          placeholder="email"
+          onChangeText={(text) => this.setState({ email: text })}
+          value={this.state.email}
         />
         <TextInput
           style={styles.input}
