@@ -36,7 +36,7 @@ route.post('/dataEntry',requireLogin,async (req,res)=>{
     const data = new models.user({name:name,store:store,order:order,quantity:quantity,user_Id:id})
     await data.save();
    
-   res.redirect(`/orders/${id}`)
+  
    
 })
 route.get('/dataEntry',requireLogin,async (req,res)=>{
@@ -101,14 +101,14 @@ const { email,password } =req.body;
   const validpassword= await bcrypt.compare(password,user.password);
   if(validpassword){
     req.session.user_id=user._id;
-     res.redirect('/dataEntry')
+    res.send("Logged in by "+req.session.user_id)
+
   }
   else{
-res.redirect('/login');
-  }
+    res.send("error pw try again")
   }
 
-
+  }
 })
 
   
