@@ -12,22 +12,32 @@ class LoginPage extends React.Component {
 
   handleLogin = () => {
     const { username, password } = this.state;
-  
-    // Perform authentication check here
-    if (username === 'user' && password === 'password') {
-      // If authentication succeeds, navigate to the main app screen
-      // You can do this using navigation props or any other navigation library of your choice
-      console.log('Login successful');
-    } else {
-      // If authentication fails, display an error message to the user
-      console.log('Login failed');
-    }
+
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          console.log('Login successful');
+
+        } else {
+          console.log('Login failed');
+    
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   render() {
     return (
       <View style={styles.container}>
-           
         <TextInput
           style={styles.input}
           placeholder="Username"
@@ -39,13 +49,12 @@ class LoginPage extends React.Component {
           placeholder="Password"
           onChangeText={(text) => this.setState({ password: text })}
           value={this.state.password}
+          secureTextEntry={true}
         />
         <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-     
       </View>
-     
     );
   }
 }
