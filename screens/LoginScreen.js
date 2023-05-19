@@ -1,22 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextInput, TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-class LoginPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      message: '',
-    };
-  }
+const LoginPage = () => {
+  const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  handleLogin = async () => {
-    const { email, password } = this.state;
-
+  const handleLogin = async () => {
     try {
-      console.log('Logging in with:', email, password); // Debug statement
+      console.log('Logging in with:', email, password);
       const response = await axios.post('http://192.168.1.38:19001/login', {
         email: email,
         password: password,
@@ -24,46 +19,41 @@ class LoginPage extends React.Component {
 
       console.log(response.data);
       const { success, message } = response.data;
-      
+
       if (success) {
-        this.setState({ message: 'Login successful ' });
-      
+        setMessage('Login successful');
+        navigation.navigate('Main'); // Replace 'MainScreen' with the name of the screen you want to navigate to
       } else {
-        this.setState({ message: message });
-
+        setMessage(message);
       }
-
     } catch (error) {
       console.error(error);
-      this.setState({ message: 'Invalid Credentials' });
-     
+      setMessage('Invalid Credentials');
     }
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder="email"
-          onChangeText={(text) => this.setState({ email: text })}
-          value={this.state.email}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onChangeText={(text) => this.setState({ password: text })}
-          value={this.state.password}
-          secureTextEntry={true}
-        />
-        <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <Text style={styles.messageText}>{this.state.message}</Text>
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="email"
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+        secureTextEntry={true}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <Text style={styles.messageText}>{message}</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
