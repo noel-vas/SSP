@@ -9,6 +9,7 @@ import CustomDrawer from './components/customdrawer';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import NewForm from './components/newform';
 import LoginPage from './screens/LoginScreen';
+import SignUp from './screens/SignUp';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -17,7 +18,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={LoginPage} />
+        
+      <Stack.Screen name="Login" component={LoginPage} />
+      <Stack.Screen name="Signup" component={SignUp} />
+        <Stack.Screen name="newform" component={NewForm} />
         <Stack.Screen name="Main" component={MainStack} />
       </Stack.Navigator>
     </NavigationContainer>

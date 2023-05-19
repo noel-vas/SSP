@@ -27,16 +27,18 @@ route.post('/logout',(req,res)=>{
   res.redirect('/login')
 })
 
-route.post('/dataEntry',requireLogin,async (req,res)=>{
+route.post('/dataEntry',async (req,res)=>{
   
-  console.log(req.session.user_id)
-    const id = req.session.user_id;
+  // console.log(req.session.user_id)
+  //   const id = req.session.user_id;
   
-    const {name,store,order,quantity}=req.body;
-    const data = new models.user({name:name,store:store,order:order,quantity:quantity,user_Id:id})
+    console.log(req.body)
+
+    const {name,store,order,quantity,description,price}=req.body;
+    const data = new models.user({name:name,store:store,order:order,quantity:quantity,description:description,price:price})
     await data.save();
    
-   res.redirect(`/orders/${id}`)
+   // res.redirect(`/orders/${id}`)
    
 })
 route.get('/dataEntry',requireLogin,async (req,res)=>{
@@ -89,27 +91,28 @@ route.get('/secretlist',async (req,res)=>{
   
 })
 
-route.post('/login',async (req,res)=>{
-const { email,password } =req.body;
+route.post('/login', async (req, res) => {
+  console.log(req.body);
 
-  const saltRounds=10;
-  const user = await models.signin.findOne({email})
-  if(user)
-  {
- 
-  
-  const validpassword= await bcrypt.compare(password,user.password);
-  if(validpassword){
-    req.session.user_id=user._id;
-     res.redirect('/dataEntry')
-  }
-  else{
-res.redirect('/login');
-  }
-  }
+  const { email, password } = req.body;
 
+  const saltRounds = 10;
+  const user = await models.signin.findOne({ email });
 
-})
+  if (user) {
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (validPassword) {
+      req.session.user_id = user._id;
+      console.log(user);
+      res.status(200).json({ success: true, message: 'Login successful' });
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid email or password' });
+    }
+  } else {
+    res.status(401).json({ success: false, message: 'Invalid email or password' });
+  }
+});
 
   
 

@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
             type:Date,
             default:Date.now
         },
-        order:Boolean,
+        order:String,
         DOD:{
             type:Date,
             default:() => {
@@ -27,8 +27,10 @@ const userSchema = new mongoose.Schema(
                 return dayOfWeekName;
             }
         },
+        description:String,
+        price:Number,
         quantity:Number,
-        user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signin' }
+        // user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signin' }
   
     })
 

@@ -13,7 +13,7 @@ export default function NewForm({ addOrder }) {
   
 
   const handleSubmit = () => {
-    fetch('http://localhost:3000/dataEntry',{
+    fetch('http://192.168.1.38:19001/dataEntry',{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ export default function NewForm({ addOrder }) {
           .catch(error => {
             console.error('Error:', error);
           });
-    addOrder(name, store,order, quantity, description, price);
+    // addOrder(name, store,order, quantity, description, price);
     setName('');
     setStore('');
     setOrder('');
