@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {  Text, TextInput, StyleSheet, Button } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 export default function NewForm({ addOrder }) {
- 
+  const navigation = useNavigation();
   const [name, setName] = useState('');
   const [store, setStore] = useState('');
   const [order, setOrder] = useState('');
@@ -13,7 +14,10 @@ export default function NewForm({ addOrder }) {
   
 
   const handleSubmit = () => {
-    fetch('http://localhost:3000/dataEntry',{
+
+   
+    
+    fetch('http://192.168.0.100:19001/dataEntry',{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -29,6 +33,11 @@ export default function NewForm({ addOrder }) {
         })
           .then(response => {
             if (!response.ok) {
+              if (response.status === 401) {
+                // Redirect to the login screen
+                useNavigation.navigate('Login');
+                return;
+              }
               throw new Error('Network response was not ok');
             }
             return response.json();
@@ -40,7 +49,7 @@ export default function NewForm({ addOrder }) {
           .catch(error => {
             console.error('Error:', error);
           });
-    addOrder(name, store,order, quantity, description, price);
+    // addOrder(name, store,order, quantity, description, price);
     setName('');
     setStore('');
     setOrder('');
