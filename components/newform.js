@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import {  Text, TextInput, StyleSheet, Button } from 'react-native';
+import {  Text, TextInput, StyleSheet, Button, View, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
 export default function NewForm({ addOrder }) {
- 
+  const navigation = useNavigation();
   const [name, setName] = useState('');
   const [store, setStore] = useState('');
   const [order, setOrder] = useState('');
@@ -15,9 +15,9 @@ export default function NewForm({ addOrder }) {
 
   const handleSubmit = () => {
 
-    const navigation = useNavigation();
+   
     
-    fetch('http://192.168.1.38:19001/dataEntry',{
+    fetch('http://192.168.1.43:19001/dataEntry',{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -60,6 +60,8 @@ export default function NewForm({ addOrder }) {
 
   return (
     <ScrollView style={styles.container}>
+        <Text style={styles.title}>New Form</Text>
+      <View style={styles.inputContainer}>
       <Text style={styles.label}>Name:</Text>
       <TextInput
         style={styles.input}
@@ -80,25 +82,57 @@ export default function NewForm({ addOrder }) {
       <TextInput style={styles.input} value={description} onChangeText={setDescription} />
       <Text style={styles.label}>Price:</Text>
       <TextInput style={styles.input} value={price} onChangeText={setPrice} />
-      <Button title="Submit" onPress={handleSubmit} />
+      </View>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>Submit</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#000000',
     padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#FFFFFF',
+  },
+  inputContainer: {
+    backgroundColor: '#808080',
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 20,
   },
   label: {
     fontSize: 16,
     marginBottom: 5,
+    color: 'black',
   },
   input: {
+    width: '100%',
+    height: 40,
+    
     borderWidth: 1,
-    borderColor: '#ccc',
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    borderColor: '#BDBDBD', // Input Border Color
+    backgroundColor: '#FFFFFF', // Input Background Color
+    color: '#000000', // Input Text Color
+  },
+  button: {
+    backgroundColor: '#ffa31a',
     padding: 10,
-    marginBottom: 15,
-    fontSize: 18,
-    borderRadius: 5,
-   },
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 });
