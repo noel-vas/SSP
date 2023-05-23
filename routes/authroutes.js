@@ -125,6 +125,22 @@ route.get('/orders',async (req, res) => {
   }
 });
 
+route.get('/coordinates',async (req,res)=>{
+  try {
+    const id = req.session.user_id;
+    const orders = await models.map.find({})
+    console.log(orders);
+      
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error finding coordinates' });
+  }
+  
+
+});
+
+
 
 
 

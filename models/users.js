@@ -33,6 +33,7 @@ const userSchema = new mongoose.Schema(
         user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signups' }
   
     })
+  
     const maps= new mongoose.Schema({
         Location:[String],
         coordinates: [{
@@ -45,9 +46,11 @@ const userSchema = new mongoose.Schema(
               required: true
             }
           }],
-        user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signups' }
+       // user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signin' }
     })
     
+    
+        const map = mongoose.model('maps',maps);    
     
         
 
@@ -64,7 +67,6 @@ const userSchema = new mongoose.Schema(
    const signin=mongoose.model('signup',signup);
 
     const user =mongoose.model('user',userSchema);
-    const map = mongoose.model('maps',maps);
    
     module.exports={
         signin:signin,
