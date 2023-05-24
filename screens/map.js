@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
@@ -6,36 +6,19 @@ const MapScreen = () => {
   const [startCoordinates, setStartCoordinates] = useState(null);
   const [destinationCoordinates, setDestinationCoordinates] = useState(null);
   const [polylineCoordinates, setPolylineCoordinates] = useState([]);
+  const [isGeneratingRoute, setIsGeneratingRoute] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [coordinateData, setCoordinateData] = useState([]);
 
-  useEffect(() => {
-    // Fetch coordinates and generate the route when the component mounts
-    generateRandomCoordinates();
-  }, []);
-
-  const generateRandomCoordinates = async () => {
+  const generateRoute = async () => {
     try {
-      const response = await fetch('http://192.168.1.35:19001/coordinates');
+      const response = await fetch('http://192.168.20.85:19001/coordinates');
       const data = await response.json();
-  
+
       if (data.length >= 2) {
-        for (let i = 0; i < data.length - 1; i++) {
-          const startCoordinates = data[i].coordinates;
-          const destinationCoordinates = data[i + 1].coordinates;
-  
-          console.log('Start Location:', startCoordinates.Location);
-          console.log('Start Latitude:', startCoordinates.latitude);
-          console.log('Start Longitude:', startCoordinates.longitude);
-  
-          console.log('Destination Location:', destinationCoordinates.Location);
-          console.log('Destination Latitude:', destinationCoordinates.latitude);
-          console.log('Destination Longitude:', destinationCoordinates.longitude);
-  
-          setStartCoordinates({ latitude: startCoordinates.latitude, longitude: startCoordinates.longitude });
-          setDestinationCoordinates({ latitude: destinationCoordinates.latitude, longitude: destinationCoordinates.longitude });
-          setPolylineCoordinates([]);
-  
-          calculateRoute(startCoordinates.latitude, startCoordinates.longitude, destinationCoordinates.latitude, destinationCoordinates.longitude);
-        }
+        setIsGeneratingRoute(true);
+        setCoordinateData(data);
+        setCurrentIndex(0);
       } else {
         console.error('Insufficient coordinates in the fetched data.');
       }
@@ -43,8 +26,35 @@ const MapScreen = () => {
       console.error(error);
     }
   };
-  
 
+  const calculateNextRoute = async () => {
+    const i = currentIndex;
+    if (i < coordinateData.length - 1) {
+      const startCoordinates = coordinateData[i].coordinates;
+      const destinationCoordinates = coordinateData[i + 1].coordinates;
+
+      console.log('Start Location:', startCoordinates.Location);
+      console.log('Start Latitude:', startCoordinates.latitude);
+      console.log('Start Longitude:', startCoordinates.longitude);
+
+      console.log('Destination Location:', destinationCoordinates.Location);
+      console.log('Destination Latitude:', destinationCoordinates.latitude);
+      console.log('Destination Longitude:', destinationCoordinates.longitude);
+      console.log(i);
+
+      setStartCoordinates({ latitude: startCoordinates.latitude, longitude: startCoordinates.longitude });
+      setDestinationCoordinates({ latitude: destinationCoordinates.latitude, longitude: destinationCoordinates.longitude });
+      setPolylineCoordinates([]);
+
+      await calculateRoute(startCoordinates.latitude, startCoordinates.longitude, destinationCoordinates.latitude, destinationCoordinates.longitude);
+
+      setCurrentIndex(i + 1);
+    } else {
+      setIsGeneratingRoute(false);
+    }
+  };
+
+  
   const calculateRoute = async (startLat, startLng, destLat, destLng) => {
     try {
       const apiKey = 'fc23a3a6-e17c-4e56-a487-879ec9c73fac';
@@ -59,7 +69,7 @@ const MapScreen = () => {
         const path = data.paths[0];
         if (path.points) {
           const polyline = decodePolyline(path.points);
-          setPolylineCoordinates(polyline);
+          setPolylineCoordinates(prevCoordinates => [...prevCoordinates, ...polyline]);
         } else {
           console.error('No points found in the route data.');
         }
@@ -125,8 +135,13 @@ const MapScreen = () => {
         )}
       </MapView>
       <View style={styles.searchButtons}>
-        <Button title="Generate Route" onPress={generateRandomCoordinates} />
+        <Button title="Start from Beginning" onPress={generateRoute} />
       </View>
+      {isGeneratingRoute && (
+        <View style={styles.searchButtons}>
+          <Button title="Calculate Next Route" onPress={calculateNextRoute} />
+        </View>
+      )}
     </View>
   );
 };
