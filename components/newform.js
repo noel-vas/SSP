@@ -10,14 +10,14 @@ export default function NewForm({ addOrder }) {
   const [order, setOrder] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
+  // const [price, setPrice] = useState('');
   
 
   const handleSubmit = () => {
 
    
     
-    fetch('http://192.168.1.43:19001/dataEntry',{
+    fetch('http://192.168.1.35:19001/dataEntry',{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ export default function NewForm({ addOrder }) {
     setOrder('');
     setQuantity('');
     setDescription('');
-    setPrice('');
+    // setPrice('');
   };
 
   return (
@@ -80,8 +80,8 @@ export default function NewForm({ addOrder }) {
       />
       <Text style={styles.label}>Description:</Text>
       <TextInput style={styles.input} value={description} onChangeText={setDescription} />
-      <Text style={styles.label}>Price:</Text>
-      <TextInput style={styles.input} value={price} onChangeText={setPrice} />
+      {/* <Text style={styles.label}>Price:</Text>
+      <TextInput style={styles.input} value={price} onChangeText={setPrice} /> */}
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Submit</Text>

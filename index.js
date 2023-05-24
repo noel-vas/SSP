@@ -24,6 +24,6 @@ mongoose.connect('mongodb://localhost:27017/minorproject')
     })
 
 
-app.listen(19001,'192.168.0.100',()=>{
+app.listen(19001,'192.168.1.35',()=>{
     console.log('server running')
 })

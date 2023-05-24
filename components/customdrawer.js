@@ -23,7 +23,7 @@ export default function CustomDrawer(props) {
 
 
     const handleLogout = () => {
-        fetch('http://192.168.1.43:19001/logout', {
+        fetch('http://192.168.1.35:19001/logout', {
             method: 'POST',
         })
         .then(() => {

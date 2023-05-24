@@ -34,23 +34,40 @@ const userSchema = new mongoose.Schema(
   
     })
   
-    const maps= new mongoose.Schema({
-        Location:[String],
-        coordinates: [{
-            longitude: {
-              type: Number,
-              required: true
-            },
-            latitude: {
-              type: Number,
-              required: true
-            }
-          }],
-       // user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signin' }
-    })
+    // const maps= new mongoose.Schema({
+    //     Location:[String],
+    //     coordinates:[ {
+    //         longitude: {
+    //           type: Number,
+    //           required: true
+    //         },
+    //         latitude: {
+    //           type: Number,
+    //           required: true
+    //         }
+    //       }],
+    //   user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signups' }
+    // })
+    
+    const mapSchema = new mongoose.Schema({
+        locations: [{
+          name: {
+            type: String,
+            required: true
+          },
+          coordinates: {
+            type: [Number], // Array of numbers [longitude, latitude]
+            required: true
+          },
+          reference: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'signup' // Replace 'OtherModel' with the actual model name you're referencing
+          }
+        }]
+      });
     
     
-        const map = mongoose.model('maps',maps);    
+        const map = mongoose.model('maps',mapSchema);    
     
         
 

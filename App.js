@@ -11,7 +11,7 @@ import NewForm from './components/newform';
 import LoginPage from './screens/LoginScreen';
 import SignUp from './screens/SignUp';
 import WelcomeScreen from './screens/welcome';
-import MapScreen from './screens/map';
+import Map from './screens/map';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -20,7 +20,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Map" component={MapScreen} />
+      <Drawer.Screen name="Map" component={Map} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Signup" component={SignUp} />

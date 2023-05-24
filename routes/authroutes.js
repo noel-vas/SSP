@@ -125,21 +125,19 @@ route.get('/orders',async (req, res) => {
   }
 });
 
-route.get('/coordinates',async (req,res)=>{
+route.get('/coordinates', async (req, res) => {
   try {
-    const id = req.session.user_id;
-    const orders = await models.map.find({})
+    const id = new mongoose.Types.ObjectId("646b2a1ac41b47ad523d331b");
+
+    // Call findById with the ID directly, not as a property of an object
+    const orders = await models.map.find({reference:id});
     console.log(orders);
-      
     res.json(orders);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error finding coordinates' });
-  }
-  
-
+    res.status(500).json({ error: 'Error finding coordinates' });
+  }
 });
-
 
 
 
