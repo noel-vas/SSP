@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
             type:Date,
             default:Date.now
         },
-        order:Boolean,
+        order:String,
         DOD:{
             type:Date,
             default:() => {
@@ -27,10 +27,32 @@ const userSchema = new mongoose.Schema(
                 return dayOfWeekName;
             }
         },
+        description:String,
+        price:Number,
         quantity:Number,
-        user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signin' }
+        user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signups' }
   
     })
+  
+    const maps= new mongoose.Schema({
+        Location:[String],
+        coordinates: [{
+            longitude: {
+              type: Number,
+              required: true
+            },
+            latitude: {
+              type: Number,
+              required: true
+            }
+          }],
+        user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signin' }
+    })
+    
+    
+        const map = mongoose.model('maps',mapSchema);    
+    
+        
 
     
    const signup= new mongoose.Schema({
@@ -48,6 +70,7 @@ const userSchema = new mongoose.Schema(
    
     module.exports={
         signin:signin,
-        user:user
+        user:user,
+        map:map
     };
     
