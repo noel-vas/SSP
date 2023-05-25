@@ -23,7 +23,7 @@ export default function CustomDrawer(props) {
 
 
     const handleLogout = () => {
-        fetch('http://192.168.1.35:19001/logout', {
+        fetch('http://192.168.0.100:19001/logout', {
             method: 'POST',
         })
         .then(() => {
@@ -68,20 +68,6 @@ export default function CustomDrawer(props) {
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
-                                name="account-outline" 
-                                color={'orange'}
-                                size={size}
-                                />
-                            )}
-                            label="Attendance"
-                            labelStyle={{ color: 'orange' }}
-                            inactiveBackgroundColor='#808080'
-
-                            onPress={() => {props.navigation.navigate('Attendance')}}
-                        />
-                        <DrawerItem 
-                            icon={({color, size}) => (
-                                <Icon 
                                 name="bookmark-outline" 
                                 color={'orange'}
                                 size={size}
@@ -106,6 +92,20 @@ export default function CustomDrawer(props) {
                             inactiveBackgroundColor='#808080'
 
                             onPress={() => {props.navigation.navigate('NewForm')}}
+                        />
+                         <DrawerItem 
+                            icon={({color, size}) => (
+                                <Icon 
+                                name="information-outline" 
+                                color={'orange'}
+                                size={size}
+                                />
+                            )}
+                            label="About"
+                            labelStyle={{ color: 'orange' }}
+                            inactiveBackgroundColor='#808080'
+
+                            onPress={() => {props.navigation.navigate('About')}}
                         />
                         <View style={styles.bottomDrawerSection}>
                         <DrawerItem 

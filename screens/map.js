@@ -12,7 +12,7 @@ const MapScreen = () => {
 
   const generateRoute = async () => {
     try {
-      const response = await fetch('http://192.168.20.85:19001/coordinates');
+      const response = await fetch('http://192.168.0.100:19001/coordinates');
       const data = await response.json();
 
       if (data.length >= 2) {

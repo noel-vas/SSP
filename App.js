@@ -4,14 +4,15 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Summary from './screens/summary';
-import Attendance from './screens/attendance';
+import About from './screens/about';
 import CustomDrawer from './components/customdrawer';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import NewForm from './components/newform';
 import LoginPage from './screens/LoginScreen';
 import SignUp from './screens/SignUp';
 import WelcomeScreen from './screens/welcome';
-import Map from './screens/map';
+import MapScreen from './screens/map';
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -20,7 +21,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Drawer.Screen name="Map" component={Map} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Signup" component={SignUp} />
@@ -34,10 +34,10 @@ function MainStack() {
   return (
     <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />} useLegacyImplementation initialRouteName="Map">
  
-      <Drawer.Screen name="Attendance" component={Attendance} />
       <Drawer.Screen name="Map" component={MapScreen} />
       <Drawer.Screen name="Summary" component={Summary} />
       <Drawer.Screen name="NewForm" component={NewForm} />
+      <Drawer.Screen name="About" component={About} />
     </Drawer.Navigator>
   );
 }
