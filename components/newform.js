@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {  Text, TextInput, StyleSheet, Button, View, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function NewForm({ addOrder }) {
   const navigation = useNavigation();
@@ -38,6 +39,11 @@ export default function NewForm({ addOrder }) {
                 useNavigation.navigate('Login');
                 return;
               }
+              if (response.status === 401) {
+                // Redirect to the login screen
+                useNavigation.navigate('Login');
+                return;
+              }
               throw new Error('Network response was not ok');
             }
             return response.json();
@@ -49,6 +55,7 @@ export default function NewForm({ addOrder }) {
           .catch(error => {
             console.error('Error:', error);
           });
+    // addOrder(name, store,order, quantity, description, price);
     // addOrder(name, store,order, quantity, description, price);
     setName('');
     setStore('');
