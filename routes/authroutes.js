@@ -80,9 +80,6 @@ route.post('/signup', async (req, res) => {
 });
 
 
-  
-  
-
 
 route.post('/login', async (req, res) => {
   console.log(req.body);
@@ -96,9 +93,9 @@ route.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (validPassword) {
-      console.log(user._id)
+     console.log(user._id)
       req.session.user_id = user._id;
-      console.log(req.session.user_id)
+     console.log(req.session.user_id)
       
       res.status(200).json({ success: true, message: 'Login successful' });
     } else {
@@ -125,21 +122,20 @@ route.get('/orders',async (req, res) => {
   }
 });
 
-route.get('/coordinates',async (req,res)=>{
+route.get('/coordinates', async (req, res) => {
   try {
     const id = req.session.user_id;
-    const orders = await models.map.find({})
+    console.log('Coordiantes');
+    console.log(req.session.user_id);
+    // Call findById with the ID directly, not as a property of an object
+    const orders = await models.map.find({reference:new mongoose.Types.ObjectId(id)});
     console.log(orders);
-      
     res.json(orders);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error finding coordinates' });
-  }
-  
-
+    res.status(500).json({ error: 'Error finding coordinates' });
+  }
 });
-
 
 
 

@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema(
     })
     
     
-        const map = mongoose.model('maps',maps);    
+        const map = mongoose.model('maps',mapSchema);    
     
         
 

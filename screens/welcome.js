@@ -23,13 +23,6 @@ const WelcomeScreen = ({}) => {
         color="#ffa31a"
       />
       </View>
-      <View style={styles.buttonWrapper}>
-      <Button
-        title="About"
-        onPress={() => navigation.navigate('About')}
-        color="#ffa31a"
-      />
-    </View>
     </View>
     <Text style={styles.footerText}>© 2023 SSP. All rights reserved.</Text>
     </View>
