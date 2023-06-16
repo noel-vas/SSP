@@ -26,7 +26,7 @@ export default function NewForm({ addOrder }) {
       calculatedPrice = totalPrice.toString();
     }
 
-    fetch('http://192.168.0.100:19001/dataEntry', {
+    fetch('http://192.168.1.42:19001/dataEntry', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

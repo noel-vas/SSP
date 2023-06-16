@@ -49,26 +49,14 @@ const userSchema = new mongoose.Schema(
     //   user_Id: { type: mongoose.Schema.Types.ObjectId, ref: 'signups' }
     // })
     
-    const mapSchema = new mongoose.Schema({
-        locations: [{
-          name: {
-            type: String,
-            required: true
-          },
-          coordinates: {
-            type: [Number], // Array of numbers [longitude, latitude]
-            required: true
-          },
-          reference: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'signup' // Replace 'OtherModel' with the actual model name you're referencing
-          }
-        }]
-      });
-    
-    
-        const map = mongoose.model('maps',mapSchema);    
-    
+    const maps= new mongoose.Schema({
+      Location:[String],
+      coordinates: [Number],
+      reference: { type: mongoose.Schema.Types.ObjectId, ref: 'signups' }
+  })
+  
+  
+      const map = mongoose.model('maps',maps);
         
 
     
@@ -81,13 +69,23 @@ const userSchema = new mongoose.Schema(
     
    })
 
+   const adminSignup= new mongoose.Schema({
+    email: String,
+  
+    password:String
+       
+        
+    
+   })
+
    const signin=mongoose.model('signup',signup);
+   const admin=mongoose.model('admin',adminSignup);
 
     const user =mongoose.model('user',userSchema);
    
     module.exports={
         signin:signin,
         user:user,
-        map:map
-    };
-    
+        map:map,
+        admin:admin
+    };

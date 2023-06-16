@@ -17,7 +17,7 @@ class SignupPage extends React.Component {
 
     try {
       console.log('Signing up with:', email, password); // Debug statement
-      const response = await axios.post('http://192.168.0.100:19001/signup', {
+      const response = await axios.post('http://192.168.1.42:19001/signup', {
         email: email,
         password: password,
       });

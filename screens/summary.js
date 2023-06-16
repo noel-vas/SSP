@@ -8,7 +8,7 @@ const Summary = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get('http://192.168.0.100:19001/orders');
+        const response = await axios.get('http://192.168.1.42:19001/orders');
         setUsers(response.data); // Store all items in the array
         console.log(response.data);
       } catch (error) {

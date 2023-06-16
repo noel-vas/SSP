@@ -12,7 +12,9 @@ import LoginPage from './screens/LoginScreen';
 import SignUp from './screens/SignUp';
 import WelcomeScreen from './screens/welcome';
 import MapScreen from './screens/map';
-
+import AdminLogin from './screens/adminlogin';
+import DisplayDetails from './screens/salesid';
+import EmailPage from './screens/EmailPage';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -25,6 +27,9 @@ export default function App() {
       <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Signup" component={SignUp} />
         <Stack.Screen name="Main" component={MainStack} />
+        <Stack.Screen name="AdminLogin" component={AdminLogin} />
+        <Stack.Screen name="DisplayDetails" component={DisplayDetails} />
+        <Stack.Screen name="EmailPage" component={EmailPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

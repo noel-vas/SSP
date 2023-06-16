@@ -136,6 +136,98 @@ route.get('/coordinates', async (req, res) => {
     res.status(500).json({ error: 'Error finding coordinates' });
   }
 });
+route.post('/adminLogin', async (req, res) => {
+  console.log(req.body);
+
+  const { email, password } = req.body;
+
+  const saltRounds = 10;
+  const user = await models.admin.findOne({ email });
+
+  if (user) {
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (validPassword) {
+     console.log(user._id)
+      req.session.user_id = user._id;
+     console.log(req.session.user_id)
+      
+      res.status(200).json({ success: true, message: 'Login successful' });
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid email or password' });
+    }
+  } else {
+    res.status(401).json({ success: false, message: 'Invalid email or password' });
+  }
+});
+route.post('/adminSignup', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+   
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const user = new models.admin({
+      email: email,
+      password: hashedPassword
+    });
+
+   
+    const savedUser = await user.save();
+    req.session.user_id=user._id;
+
+   res.status(201).json(savedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error signing up' +error});
+  }
+});
+
+route.get('/display',async (req,res)=>{
+  try{
+  
+  
+    const ids= await models.signin.find({});
+    res.json(ids);
+  }
+  catch{
+    res.status(500).json({error:"error finding orders"});}
+  });
+
+  route.post('/assignment', async (req, res) => {
+    console.log(req.body)
+    try {
+      const {ObjectId,coordinates} = req.body;
+  
+      const id=new mongoose.Types.ObjectId(req.body.objectId);
+  
+      const amp = new models.map({  coordinates: coordinates ,  reference:id});
+      await amp.save();
+  
+      res.status(200).json({ message: 'Data saved successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error saving data' });
+    }
+  });
+  // route.post('/assignment', async (req, res) => {
+  //   try {
+  //     const { Location, coordinates } = req.body;
+  
+  //     const formattedCoordinates = coordinates.map(coord => parseFloat(coord));
+  
+  //     const map = new models.map({ Location, coordinates: formattedCoordinates });
+  //     await map.save();
+  
+  //     res.status(200).json({ message: 'Data saved successfully' });
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ error: 'Error saving data' });
+  //   }
+  // });
+  
+  
 
 
 

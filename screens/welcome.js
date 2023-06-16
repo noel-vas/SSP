@@ -23,6 +23,13 @@ const WelcomeScreen = ({}) => {
         color="#ffa31a"
       />
       </View>
+      <View style={styles.buttonWrapper}>
+      <Button
+        title="AdminLogin"
+        onPress={() => navigation.navigate('AdminLogin')}
+        color="#ffa31a"
+      />
+        </View>
     </View>
     <Text style={styles.footerText}>© 2023 SSP. All rights reserved.</Text>
     </View>
